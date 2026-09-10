@@ -6,7 +6,7 @@
     <meta name="theme-color" content="#0a0a0a" />
     <meta name="description" content="Kio Radio — independent radio in a minimal dark player." />
     <meta property="og:title" content="Kio Radio" />
-    <meta property="og:description" content="Eleven independent music, focus, and news signals in one minimal player." />
+    <meta property="og:description" content="Fifteen independent music, focus, and news signals in one minimal player." />
     <meta property="og:type" content="website" />
     <meta property="og:url" content="https://deepinkgroup.github.io/kio-radio/" />
     <meta property="og:image" content="https://deepinkgroup.github.io/kio-radio/assets/kio-signal.png" />
@@ -24,7 +24,7 @@
           <span>Kio Radio</span>
         </a>
         <div class="header-meta">
-          <span class="signal-label"><i aria-hidden="true"></i> <span id="headerStationCount">11 live signals</span></span>
+          <span class="signal-label"><i aria-hidden="true"></i> <span id="headerStationCount">15 live signals</span></span>
           <span id="localTime" aria-label="Local time">--:--</span>
         </div>
       </header>
@@ -48,6 +48,9 @@
             <div class="eyebrow-row">
               <p class="eyebrow">Now tuned</p>
               <div class="station-actions">
+                <button class="icon-button" id="randomButton" type="button" aria-label="Tune to a random station">
+                  <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M16 4h4v4M4 18l5.5-5.5M20 4l-7.5 7.5M14.5 14.5 18 18h2M20 18v-4M4 6h2.5l3 3" /></svg>
+                </button>
                 <button class="icon-button" id="shareButton" type="button" aria-label="Share this station">
                   <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="18" cy="5" r="2.5" /><circle cx="6" cy="12" r="2.5" /><circle cx="18" cy="19" r="2.5" /><path d="m8.2 10.8 7.6-4.5M8.2 13.2l7.6 4.5" /></svg>
                 </button>
@@ -106,11 +109,11 @@
           </div>
           <div class="station-toolbar">
             <div class="filter-list" aria-label="Filter stations">
-              <button class="filter-button active" type="button" data-filter="all">All</button>
-              <button class="filter-button" type="button" data-filter="music">Music</button>
-              <button class="filter-button" type="button" data-filter="focus">Focus</button>
-              <button class="filter-button" type="button" data-filter="news">News</button>
-              <button class="filter-button" type="button" data-filter="favorites">Favorites</button>
+              <button class="filter-button active" type="button" data-filter="all" aria-pressed="true">All</button>
+              <button class="filter-button" type="button" data-filter="music" aria-pressed="false">Music</button>
+              <button class="filter-button" type="button" data-filter="focus" aria-pressed="false">Focus</button>
+              <button class="filter-button" type="button" data-filter="news" aria-pressed="false">News</button>
+              <button class="filter-button" type="button" data-filter="favorites" aria-pressed="false">Favorites</button>
             </div>
             <label class="search-field">
               <span class="sr-only">Search stations</span>
@@ -124,9 +127,16 @@
       </main>
 
       <footer>
-        <span>© <span id="year"></span> Kio Radio</span>
-        <span>Stay curious. Keep listening.</span>
-        <a href="https://github.com/DeepInkGroup/kio-radio" target="_blank" rel="noreferrer">Open source <span aria-hidden="true">↗</span></a>
+        <span>© <span id="year"></span> DeepInk Group</span>
+        <span class="footer-title">Kio Radio</span>
+        <div class="footer-socials" aria-label="Kio Radio social links">
+          <a href="https://github.com/DeepInkGroup/kio-radio" target="_blank" rel="noreferrer" aria-label="Kio Radio on GitHub">
+            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2.5a9.7 9.7 0 0 0-3.07 18.9c.49.09.67-.21.67-.47v-1.86c-2.73.6-3.3-1.16-3.3-1.16-.45-1.14-1.09-1.44-1.09-1.44-.89-.61.07-.6.07-.6.98.07 1.5 1.01 1.5 1.01.88 1.5 2.3 1.07 2.86.82.09-.63.34-1.07.62-1.31-2.18-.25-4.47-1.09-4.47-4.85 0-1.07.38-1.95 1.01-2.63-.1-.25-.44-1.25.1-2.6 0 0 .83-.27 2.69 1a9.3 9.3 0 0 1 4.9 0c1.87-1.27 2.69-1 2.69-1 .54 1.35.2 2.35.1 2.6.63.68 1.01 1.56 1.01 2.63 0 3.77-2.3 4.59-4.48 4.84.35.31.66.91.66 1.84v2.72c0 .26.18.57.67.47A9.7 9.7 0 0 0 12 2.5Z" /></svg>
+          </a>
+          <a href="https://t.me/DeepInkGroup" target="_blank" rel="noreferrer" aria-label="DeepInk Group on Telegram">
+            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M20.9 4.1 18.2 19c-.2 1.05-.78 1.3-1.58.81l-4.1-3.02-1.98 1.9c-.22.22-.4.4-.82.4l.29-4.18 7.61-6.88c.33-.29-.07-.46-.51-.17L7.7 13.79l-4.05-1.27c-.88-.28-.9-.88.18-1.3L19.66 5.1c.74-.27 1.38.18 1.24 1Z" /></svg>
+          </a>
+        </div>
       </footer>
     </div>
 

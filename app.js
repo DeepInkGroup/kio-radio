@@ -11,6 +11,17 @@ const stations = [
     description: "Human-curated music from Seattle. Independent, adventurous, and always live.",
   },
   {
+    id: "nts-one",
+    name: "NTS 1",
+    location: "London, UK",
+    genre: "Underground / Global",
+    category: "music",
+    quality: "256k MP3",
+    url: "https://stream-relay-geo.ntslive.net/stream?client=direct",
+    homepage: "https://www.nts.live/radio",
+    description: "Boundary-free live radio from an international community of artists, selectors, and music lovers.",
+  },
+  {
     id: "all-classical",
     name: "All Classical",
     location: "Portland, US",
@@ -20,6 +31,17 @@ const stations = [
     url: "https://allclassical.streamguys1.com/ac128kmp3",
     homepage: "https://www.allclassical.org/",
     description: "Orchestral works, chamber music, and contemporary composers from a listener-supported station.",
+  },
+  {
+    id: "wrti-jazz",
+    name: "WRTI Jazz",
+    location: "Philadelphia, US",
+    genre: "Jazz / Public radio",
+    category: "music",
+    quality: "128k MP3",
+    url: "https://wrti-live.streamguys1.com/jazz-mp3",
+    homepage: "https://www.wrti.org/listen-live-to-wrti",
+    description: "A round-the-clock public-radio jazz stream spanning the tradition, new voices, and deep cuts.",
   },
   {
     id: "atma-ambient",
@@ -44,6 +66,17 @@ const stations = [
     description: "Dusty beats, soft jazz samples, and an uninterrupted backdrop for work, reading, or rest.",
   },
   {
+    id: "yourclassical-relax",
+    name: "YourClassical Relax",
+    location: "Minnesota, US",
+    genre: "Calm classical / Focus",
+    category: "focus",
+    quality: "128k MP3",
+    url: "https://relax.stream.publicradio.org/relax.mp3",
+    homepage: "https://www.yourclassical.org/playlist/relax-stream",
+    description: "Quiet classical selections chosen for concentration, decompression, and slower moments.",
+  },
+  {
     id: "bbc-world",
     name: "BBC World Service",
     location: "London, UK",
@@ -64,6 +97,17 @@ const stations = [
     url: "https://tunein.cdnstream1.com/2868_96.mp3",
     homepage: "https://www.cnn.com/audio",
     description: "The live audio simulcast of CNN's rolling news coverage, distributed by TuneIn.",
+  },
+  {
+    id: "iran-international",
+    name: "Iran International",
+    location: "London / Tehran",
+    genre: "Persian news / Analysis",
+    category: "news",
+    quality: "Live MP3",
+    url: "https://n02.radiojar.com/dfnrphnr5f0uv",
+    homepage: "https://www.iranintl.com/radio",
+    description: "Live Persian-language reporting, interviews, and analysis covering Iran and the wider world.",
   },
   {
     id: "wfmu",
@@ -135,6 +179,7 @@ const previousButton = document.querySelector("#previousButton");
 const nextButton = document.querySelector("#nextButton");
 const favoriteButton = document.querySelector("#favoriteButton");
 const shareButton = document.querySelector("#shareButton");
+const randomButton = document.querySelector("#randomButton");
 const stationSource = document.querySelector("#stationSource");
 const muteButton = document.querySelector("#muteButton");
 const volumeSlider = document.querySelector("#volumeSlider");
@@ -292,6 +337,11 @@ function showToast(message) {
 playButton.addEventListener("click", togglePlayback);
 previousButton.addEventListener("click", () => selectStation(currentIndex - 1, true));
 nextButton.addEventListener("click", () => selectStation(currentIndex + 1, true));
+randomButton.addEventListener("click", () => {
+  let randomIndex = currentIndex;
+  while (randomIndex === currentIndex) randomIndex = Math.floor(Math.random() * stations.length);
+  selectStation(randomIndex, true);
+});
 
 favoriteButton.addEventListener("click", () => {
   const station = stations[currentIndex];
@@ -325,7 +375,11 @@ shareButton.addEventListener("click", async () => {
 filterButtons.forEach((button) => {
   button.addEventListener("click", () => {
     activeFilter = button.dataset.filter;
-    filterButtons.forEach((item) => item.classList.toggle("active", item === button));
+    filterButtons.forEach((item) => {
+      const isActive = item === button;
+      item.classList.toggle("active", isActive);
+      item.setAttribute("aria-pressed", String(isActive));
+    });
     renderStationList();
   });
 });
@@ -373,6 +427,7 @@ document.addEventListener("keydown", (event) => {
   }
   if (event.code === "ArrowRight") selectStation(currentIndex + 1, true);
   if (event.code === "ArrowLeft") selectStation(currentIndex - 1, true);
+  if (!event.ctrlKey && !event.metaKey && !event.altKey && event.key.toLowerCase() === "r") randomButton.click();
 });
 
 function updateClock() {

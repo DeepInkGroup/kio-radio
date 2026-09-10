@@ -8,13 +8,14 @@ A focused, dark internet-radio player for human-curated music and live global ne
 
 ## What it does
 
-Kio Radio brings eleven independent live signals into one lightweight player. Tune into alternative and world music, settle into classical, ambient, or lo-fi focus streams, or switch directly to BBC and CNN news audio.
+Kio Radio brings fifteen independent live signals into one lightweight player. Tune into alternative, jazz, and world music; settle into classical, ambient, or lo-fi focus streams; or switch directly to Persian and international news audio.
 
 - Real HTTPS audio streams—no demo tracks or simulated playback
 - Music, Focus, News, and Favorites filters
 - Instant station search
 - Previous/next controls, mute, and precise volume control
 - Shareable station URLs such as `#bbc-world`
+- One-click random tuning with the `R` keyboard shortcut
 - Favorites, last station, and volume remembered locally
 - Clear connecting, buffering, playing, paused, and unavailable states
 - Responsive layout with keyboard and reduced-motion support
@@ -25,11 +26,15 @@ Kio Radio brings eleven independent live signals into one lightweight player. Tu
 | Station | Category | Stream | Broadcaster |
 | --- | --- | --- | --- |
 | KEXP 90.3 | Eclectic / alternative | 160k AAC | [KEXP](https://www.kexp.org/streaming-urls/) |
+| NTS 1 | Underground / global | 256k MP3 | [NTS](https://www.nts.live/radio) |
 | All Classical | Classical | 128k MP3 | [All Classical Radio](https://www.allclassical.org/contact/contact-our-technical-team/) |
+| WRTI Jazz | Jazz | 128k MP3 | [WRTI](https://www.wrti.org/listen-live-to-wrti) |
 | Atma FM Ambient | Ambient / experimental | 128k MP3 | [Atma FM](https://atma.fm/) |
 | Kalizo Lo-Fi | Lo-fi / chillhop | 192k MP3 | [Kalizo Radio](https://www.kalizoradio.com/radio/lofi/) |
+| YourClassical Relax | Calm classical / focus | 128k MP3 | [YourClassical](https://www.yourclassical.org/playlist/relax-stream) |
 | BBC World Service | Global news | 56k MP3 | [BBC Audio](https://www.bbc.com/audio/stations) |
 | CNN | Live news | 96k MP3 | [CNN Audio](https://www.cnn.com/audio) via TuneIn |
+| Iran International | Persian news | Live MP3 | [Iran International](https://www.iranintl.com/radio) |
 | WFMU Freeform | Freeform / community | 128k MP3 | [WFMU](https://www.wfmu.org/audiostream.shtml) |
 | Radio Paradise | Eclectic | 192k MP3 | [Radio Paradise](https://radioparadise.com/) |
 | RP Mellow Mix | Mellow / acoustic | 192k MP3 | [Radio Paradise](https://radioparadise.com/) |
@@ -57,6 +62,7 @@ Open [http://127.0.0.1:4173](http://127.0.0.1:4173). Browsers require a user cli
 | Play or pause | Main player button or `Space` |
 | Previous station | Previous button or `←` |
 | Next station | Next button or `→` |
+| Random station | Shuffle button or `R` |
 | Filter the dial | Category buttons |
 | Save a station | Heart button |
 | Share a station | Share button |
