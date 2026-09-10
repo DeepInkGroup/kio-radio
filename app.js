@@ -3,54 +3,121 @@ const stations = [
     id: "kexp",
     name: "KEXP 90.3",
     location: "Seattle, US",
-    genre: "Eclectic · Alternative",
+    genre: "Eclectic / Alternative",
+    category: "music",
     quality: "160k AAC",
     url: "https://kexp.streamguys1.com/kexp160.aac",
+    homepage: "https://www.kexp.org/",
     description: "Human-curated music from Seattle. Independent, adventurous, and always live.",
+  },
+  {
+    id: "all-classical",
+    name: "All Classical",
+    location: "Portland, US",
+    genre: "Classical / Public radio",
+    category: "music",
+    quality: "128k MP3",
+    url: "https://allclassical.streamguys1.com/ac128kmp3",
+    homepage: "https://www.allclassical.org/",
+    description: "Orchestral works, chamber music, and contemporary composers from a listener-supported station.",
+  },
+  {
+    id: "atma-ambient",
+    name: "Atma FM Ambient",
+    location: "Prague, CZ",
+    genre: "Ambient / Experimental",
+    category: "focus",
+    quality: "128k MP3",
+    url: "https://atma.fm/channel1",
+    homepage: "https://atma.fm/",
+    description: "Handpicked atmospheric, droning, and electroacoustic music from an independent Prague signal.",
+  },
+  {
+    id: "kalizo-lofi",
+    name: "Kalizo Lo-Fi",
+    location: "France",
+    genre: "Lo-fi / Chillhop",
+    category: "focus",
+    quality: "192k MP3",
+    url: "https://streams.dez.ovh/listen/chillofi/radio.mp3",
+    homepage: "https://www.kalizoradio.com/radio/lofi/",
+    description: "Dusty beats, soft jazz samples, and an uninterrupted backdrop for work, reading, or rest.",
+  },
+  {
+    id: "bbc-world",
+    name: "BBC World Service",
+    location: "London, UK",
+    genre: "Global news / Analysis",
+    category: "news",
+    quality: "56k MP3",
+    url: "https://stream.live.vc.bbcmedia.co.uk/bbc_world_service",
+    homepage: "https://www.bbc.com/audio/stations",
+    description: "Live international reporting, interviews, and analysis from BBC News around the clock.",
+  },
+  {
+    id: "cnn",
+    name: "CNN",
+    location: "Atlanta, US",
+    genre: "Live news / Current affairs",
+    category: "news",
+    quality: "96k MP3",
+    url: "https://tunein.cdnstream1.com/2868_96.mp3",
+    homepage: "https://www.cnn.com/audio",
+    description: "The live audio simulcast of CNN's rolling news coverage, distributed by TuneIn.",
+  },
+  {
+    id: "wfmu",
+    name: "WFMU Freeform",
+    location: "New Jersey, US",
+    genre: "Freeform / Community",
+    category: "music",
+    quality: "128k MP3",
+    url: "https://stream0.wfmu.org/freeform-128k.mp3",
+    homepage: "https://www.wfmu.org/",
+    description: "Independent freeform radio where curious DJs follow ideas instead of algorithms.",
   },
   {
     id: "rp-main",
     name: "Radio Paradise",
     location: "California, US",
-    genre: "Eclectic · Curated",
+    genre: "Eclectic / Curated",
+    category: "music",
     quality: "192k MP3",
     url: "https://stream.radioparadise.com/mp3-192",
+    homepage: "https://radioparadise.com/",
     description: "A listener-supported blend of modern and classic rock, world music, and electronic sound.",
   },
   {
     id: "rp-mellow",
     name: "RP Mellow Mix",
     location: "California, US",
-    genre: "Mellow · Acoustic",
+    genre: "Mellow / Acoustic",
+    category: "focus",
     quality: "192k MP3",
     url: "https://stream.radioparadise.com/mellow-192",
+    homepage: "https://radioparadise.com/",
     description: "A softer handpicked mix for late nights, slow mornings, and everything in between.",
-  },
-  {
-    id: "wfmu",
-    name: "WFMU Freeform",
-    location: "New Jersey, US",
-    genre: "Freeform · Community",
-    quality: "128k MP3",
-    url: "https://stream0.wfmu.org/freeform-128k.mp3",
-    description: "Independent freeform radio where curious DJs follow ideas instead of algorithms.",
   },
   {
     id: "rp-rock",
     name: "RP Rock Mix",
     location: "California, US",
-    genre: "Rock · Alternative",
+    genre: "Rock / Alternative",
+    category: "music",
     quality: "192k MP3",
     url: "https://stream.radioparadise.com/rock-192",
+    homepage: "https://radioparadise.com/",
     description: "Deep album cuts, enduring classics, and modern rock selected by people who listen closely.",
   },
   {
     id: "rp-global",
     name: "RP Global Mix",
     location: "California, US",
-    genre: "Global · World",
+    genre: "Global / World",
+    category: "music",
     quality: "192k MP3",
     url: "https://stream.radioparadise.com/global-192",
+    homepage: "https://radioparadise.com/",
     description: "A borderless selection of voices, rhythms, and traditions from around the world.",
   },
 ];
@@ -67,15 +134,25 @@ const playButton = document.querySelector("#playButton");
 const previousButton = document.querySelector("#previousButton");
 const nextButton = document.querySelector("#nextButton");
 const favoriteButton = document.querySelector("#favoriteButton");
+const shareButton = document.querySelector("#shareButton");
+const stationSource = document.querySelector("#stationSource");
 const muteButton = document.querySelector("#muteButton");
 const volumeSlider = document.querySelector("#volumeSlider");
 const volumeValue = document.querySelector("#volumeValue");
 const toast = document.querySelector("#toast");
+const stationSearch = document.querySelector("#stationSearch");
+const stationSummary = document.querySelector("#stationSummary");
+const emptyState = document.querySelector("#emptyState");
+const filterButtons = [...document.querySelectorAll(".filter-button")];
 
 const rememberedStation = localStorage.getItem("kio-station");
-let currentIndex = Math.max(0, stations.findIndex((station) => station.id === rememberedStation));
+const linkedStation = decodeURIComponent(window.location.hash.slice(1));
+const initialStation = stations.some((station) => station.id === linkedStation) ? linkedStation : rememberedStation;
+let currentIndex = Math.max(0, stations.findIndex((station) => station.id === initialStation));
 let shouldResume = false;
 let toastTimer;
+let activeFilter = "all";
+let searchTerm = "";
 const favorites = new Set(JSON.parse(localStorage.getItem("kio-favorites") || "[]"));
 const rememberedVolume = localStorage.getItem("kio-volume");
 const savedVolume = rememberedVolume === null ? Number.NaN : Number(rememberedVolume);
@@ -88,6 +165,7 @@ function stationRow(station, index) {
   row.className = "station-row";
   row.type = "button";
   row.dataset.index = index;
+  row.dataset.category = station.category;
   row.innerHTML = `
     <span class="station-number">${String(index + 1).padStart(2, "0")}</span>
     <span class="station-title"><strong>${station.name}</strong><span>${station.location}</span></span>
@@ -101,23 +179,48 @@ function stationRow(station, index) {
   return row;
 }
 
-stations.forEach((station, index) => stationList.appendChild(stationRow(station, index)));
+function renderStationList() {
+  const visibleStations = stations.filter((station) => {
+    const matchesFilter = activeFilter === "all"
+      || station.category === activeFilter
+      || (activeFilter === "favorites" && favorites.has(station.id));
+    const searchableText = `${station.name} ${station.location} ${station.genre}`.toLowerCase();
+    return matchesFilter && searchableText.includes(searchTerm);
+  });
+
+  stationList.replaceChildren();
+  visibleStations.forEach((station) => {
+    stationList.appendChild(stationRow(station, stations.indexOf(station)));
+  });
+
+  emptyState.hidden = visibleStations.length > 0;
+  stationSummary.textContent = visibleStations.length === stations.length
+    ? `${stations.length} independent signals, focus music, and global news—streaming live.`
+    : `${visibleStations.length} of ${stations.length} signals shown.`;
+  updateActiveRow();
+}
+
+function updateActiveRow() {
+  document.querySelectorAll(".station-row").forEach((row) => {
+    const active = Number(row.dataset.index) === currentIndex;
+    row.classList.toggle("active", active);
+    row.setAttribute("aria-current", active ? "true" : "false");
+  });
+}
 
 function renderStation() {
   const station = stations[currentIndex];
   stationName.textContent = station.name;
   stationDescription.textContent = station.description;
   artworkTag.textContent = station.location;
-  broadcastLabel.textContent = `${station.genre} · ${station.quality}`;
+  broadcastLabel.textContent = `${station.genre} / ${station.quality}`;
+  stationSource.href = station.homepage;
+  stationSource.setAttribute("aria-label", `Visit ${station.name} broadcaster website`);
   playButton.setAttribute("aria-label", `${audio.paused ? "Play" : "Pause"} ${station.name}`);
   document.title = `${station.name} — Kio Radio`;
   localStorage.setItem("kio-station", station.id);
-
-  document.querySelectorAll(".station-row").forEach((row, index) => {
-    const active = index === currentIndex;
-    row.classList.toggle("active", active);
-    row.setAttribute("aria-current", active ? "true" : "false");
-  });
+  window.history.replaceState(null, "", `#${station.id}`);
+  updateActiveRow();
 
   const isFavorite = favorites.has(station.id);
   favoriteButton.setAttribute("aria-pressed", String(isFavorite));
@@ -196,7 +299,40 @@ favoriteButton.addEventListener("click", () => {
   else favorites.add(station.id);
   localStorage.setItem("kio-favorites", JSON.stringify([...favorites]));
   renderStation();
+  if (activeFilter === "favorites") renderStationList();
   showToast(favorites.has(station.id) ? `${station.name} saved to favorites.` : `${station.name} removed from favorites.`);
+});
+
+shareButton.addEventListener("click", async () => {
+  const station = stations[currentIndex];
+  const shareData = {
+    title: `${station.name} on Kio Radio`,
+    text: `Listen to ${station.name} live on Kio Radio.`,
+    url: window.location.href,
+  };
+
+  try {
+    if (navigator.share) await navigator.share(shareData);
+    else {
+      await navigator.clipboard.writeText(shareData.url);
+      showToast("Station link copied to your clipboard.");
+    }
+  } catch (error) {
+    if (error.name !== "AbortError") showToast("The station link could not be shared.");
+  }
+});
+
+filterButtons.forEach((button) => {
+  button.addEventListener("click", () => {
+    activeFilter = button.dataset.filter;
+    filterButtons.forEach((item) => item.classList.toggle("active", item === button));
+    renderStationList();
+  });
+});
+
+stationSearch.addEventListener("input", (event) => {
+  searchTerm = event.target.value.trim().toLowerCase();
+  renderStationList();
 });
 
 muteButton.addEventListener("click", () => {
@@ -251,5 +387,7 @@ document.querySelector("#year").textContent = new Date().getFullYear();
 window.setInterval(updateClock, 1000);
 updateClock();
 updateVolumeDisplay();
+document.querySelector("#headerStationCount").textContent = `${stations.length} live signals`;
+renderStationList();
 renderStation();
 setStatus("Ready when you are", "idle");

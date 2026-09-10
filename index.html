@@ -5,6 +5,12 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta name="theme-color" content="#0a0a0a" />
     <meta name="description" content="Kio Radio — independent radio in a minimal dark player." />
+    <meta property="og:title" content="Kio Radio" />
+    <meta property="og:description" content="Eleven independent music, focus, and news signals in one minimal player." />
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content="https://deepinkgroup.github.io/kio-radio/" />
+    <meta property="og:image" content="https://deepinkgroup.github.io/kio-radio/assets/kio-signal.png" />
+    <link rel="canonical" href="https://deepinkgroup.github.io/kio-radio/" />
     <title>Kio Radio — Stay curious</title>
     <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='16' fill='%23101010'/%3E%3Ccircle cx='32' cy='32' r='12' fill='%233c63f3'/%3E%3Ccircle cx='32' cy='32' r='4' fill='white'/%3E%3C/svg%3E" />
     <link rel="stylesheet" href="style.css" />
@@ -18,7 +24,7 @@
           <span>Kio Radio</span>
         </a>
         <div class="header-meta">
-          <span class="signal-label"><i aria-hidden="true"></i> Live signal</span>
+          <span class="signal-label"><i aria-hidden="true"></i> <span id="headerStationCount">11 live signals</span></span>
           <span id="localTime" aria-label="Local time">--:--</span>
         </div>
       </header>
@@ -41,13 +47,19 @@
           <div class="player-copy">
             <div class="eyebrow-row">
               <p class="eyebrow">Now tuned</p>
-              <button class="icon-button favorite-button" id="favoriteButton" type="button" aria-label="Add station to favorites" aria-pressed="false">
-                <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 20.25S4.5 16.2 4.5 9.75A4.25 4.25 0 0 1 12 7a4.25 4.25 0 0 1 7.5 2.75c0 6.45-7.5 10.5-7.5 10.5Z" /></svg>
-              </button>
+              <div class="station-actions">
+                <button class="icon-button" id="shareButton" type="button" aria-label="Share this station">
+                  <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="18" cy="5" r="2.5" /><circle cx="6" cy="12" r="2.5" /><circle cx="18" cy="19" r="2.5" /><path d="m8.2 10.8 7.6-4.5M8.2 13.2l7.6 4.5" /></svg>
+                </button>
+                <button class="icon-button favorite-button" id="favoriteButton" type="button" aria-label="Add station to favorites" aria-pressed="false">
+                  <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 20.25S4.5 16.2 4.5 9.75A4.25 4.25 0 0 1 12 7a4.25 4.25 0 0 1 7.5 2.75c0 6.45-7.5 10.5-7.5 10.5Z" /></svg>
+                </button>
+              </div>
             </div>
 
             <h1 id="stationName">KEXP 90.3</h1>
             <p class="station-description" id="stationDescription">Human-curated music from Seattle. Independent, adventurous, and always live.</p>
+            <a class="source-link" id="stationSource" href="https://www.kexp.org/" target="_blank" rel="noreferrer">Visit broadcaster <span aria-hidden="true">↗</span></a>
 
             <div class="on-air-card" aria-live="polite">
               <div class="on-air-copy">
@@ -88,11 +100,26 @@
           <div class="section-heading">
             <div>
               <p class="eyebrow">Explore the dial</p>
-              <h2 id="stationListTitle">Six signals, one place.</h2>
+              <h2 id="stationListTitle">Signals for every hour.</h2>
             </div>
-            <p>Independent voices and listener-supported music, streaming live.</p>
+            <p id="stationSummary">Independent voices, focus music, and global news—streaming live.</p>
+          </div>
+          <div class="station-toolbar">
+            <div class="filter-list" aria-label="Filter stations">
+              <button class="filter-button active" type="button" data-filter="all">All</button>
+              <button class="filter-button" type="button" data-filter="music">Music</button>
+              <button class="filter-button" type="button" data-filter="focus">Focus</button>
+              <button class="filter-button" type="button" data-filter="news">News</button>
+              <button class="filter-button" type="button" data-filter="favorites">Favorites</button>
+            </div>
+            <label class="search-field">
+              <span class="sr-only">Search stations</span>
+              <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="11" cy="11" r="6" /><path d="m16 16 4 4" /></svg>
+              <input id="stationSearch" type="search" placeholder="Search the dial" autocomplete="off" />
+            </label>
           </div>
           <div class="station-list" id="stationList"></div>
+          <p class="empty-state" id="emptyState" hidden>No signals match this view.</p>
         </section>
       </main>
 
