@@ -22,6 +22,17 @@ const stations = [
     description: "Boundary-free live radio from an international community of artists, selectors, and music lovers.",
   },
   {
+    id: "nts-two",
+    name: "NTS 2",
+    location: "London, UK",
+    genre: "Experimental / Global",
+    category: "music",
+    quality: "256k MP3",
+    url: "https://stream-relay-geo.ntslive.net/stream2?client=direct",
+    homepage: "https://www.nts.live/schedule/2",
+    description: "NTS's second live channel: adventurous selectors, experimental sounds, and scenes from around the world.",
+  },
+  {
     id: "all-classical",
     name: "All Classical",
     location: "Portland, US",
@@ -42,6 +53,28 @@ const stations = [
     url: "https://wrti-live.streamguys1.com/jazz-mp3",
     homepage: "https://www.wrti.org/listen-live-to-wrti",
     description: "A round-the-clock public-radio jazz stream spanning the tradition, new voices, and deep cuts.",
+  },
+  {
+    id: "swiss-jazz",
+    name: "Radio Swiss Jazz",
+    location: "Basel, Switzerland",
+    genre: "Jazz / Soul / Blues",
+    category: "music",
+    quality: "128k MP3",
+    url: "https://stream.srg-ssr.ch/srgssr/rsj/mp3/128",
+    homepage: "https://www.radioswissjazz.ch/en/",
+    description: "An ad-free blend of jazz, swing, soul, blues, Latin, and world music from Switzerland.",
+  },
+  {
+    id: "kcrw-eclectic24",
+    name: "KCRW Eclectic24",
+    location: "Santa Monica, US",
+    genre: "Eclectic / Music discovery",
+    category: "music",
+    quality: "192k MP3",
+    url: "https://streams.kcrw.com/e24_mp3",
+    homepage: "https://www.kcrw.com/shows/eclectic24/about",
+    description: "KCRW's always-on music channel, handpicked across new releases, deep cuts, eras, and scenes.",
   },
   {
     id: "atma-ambient",
@@ -108,6 +141,28 @@ const stations = [
     url: "https://n02.radiojar.com/dfnrphnr5f0uv",
     homepage: "https://www.iranintl.com/radio",
     description: "Live Persian-language reporting, interviews, and analysis covering Iran and the wider world.",
+  },
+  {
+    id: "radio-shoma",
+    name: "Radio Shoma 93.4",
+    location: "Dubai, UAE",
+    genre: "Persian pop / Culture",
+    category: "music",
+    quality: "Live MP3",
+    url: "https://stream.radiojar.com/rzcfw4cbsxquv",
+    homepage: "https://www.radioshoma934.ae/en/",
+    description: "Persian hits, conversation, and culture from the UAE's first Farsi music station.",
+  },
+  {
+    id: "radio-yar",
+    name: "Radio Yar",
+    location: "Los Angeles, US",
+    genre: "Persian music / Talk",
+    category: "music",
+    quality: "Live MP3",
+    url: "https://stream.zeno.fm/oyb5oh6ne3tuv",
+    homepage: "https://radioyar.com/",
+    description: "Independent Persian radio pairing timeless music with live talk, culture, and community voices.",
   },
   {
     id: "wfmu",
@@ -189,6 +244,12 @@ const stationSearch = document.querySelector("#stationSearch");
 const stationSummary = document.querySelector("#stationSummary");
 const emptyState = document.querySelector("#emptyState");
 const filterButtons = [...document.querySelectorAll(".filter-button")];
+const installButton = document.querySelector("#installButton");
+const installDialog = document.querySelector("#installDialog");
+const installDialogTitle = document.querySelector("#installDialogTitle");
+const installInstructions = document.querySelector("#installInstructions");
+const installConfirmButton = document.querySelector("#installConfirmButton");
+const installCloseButton = document.querySelector("#installCloseButton");
 
 const rememberedStation = localStorage.getItem("kio-station");
 const linkedStation = decodeURIComponent(window.location.hash.slice(1));
@@ -198,6 +259,7 @@ let shouldResume = false;
 let toastTimer;
 let activeFilter = "all";
 let searchTerm = "";
+let deferredInstallPrompt;
 const favorites = new Set(JSON.parse(localStorage.getItem("kio-favorites") || "[]"));
 const rememberedVolume = localStorage.getItem("kio-volume");
 const savedVolume = rememberedVolume === null ? Number.NaN : Number(rememberedVolume);
@@ -270,6 +332,18 @@ function renderStation() {
   const isFavorite = favorites.has(station.id);
   favoriteButton.setAttribute("aria-pressed", String(isFavorite));
   favoriteButton.setAttribute("aria-label", `${isFavorite ? "Remove" : "Add"} ${station.name} ${isFavorite ? "from" : "to"} favorites`);
+
+  if ("mediaSession" in navigator && "MediaMetadata" in window) {
+    navigator.mediaSession.metadata = new MediaMetadata({
+      title: station.name,
+      artist: station.genre,
+      album: "Kio Radio",
+      artwork: [
+        { src: "assets/icon-192.png", sizes: "192x192", type: "image/png" },
+        { src: "assets/icon-512.png", sizes: "512x512", type: "image/png" },
+      ],
+    });
+  }
 }
 
 async function selectStation(index, autoPlay = false) {
@@ -318,6 +392,9 @@ function setStatus(message, state) {
   statusLabel.textContent = message;
   page.classList.toggle("is-loading", state === "loading");
   page.classList.toggle("is-playing", state === "playing");
+  if ("mediaSession" in navigator) {
+    navigator.mediaSession.playbackState = state === "playing" ? "playing" : state === "idle" ? "paused" : "none";
+  }
 }
 
 function updateVolumeDisplay() {
@@ -332,6 +409,104 @@ function showToast(message) {
   toast.textContent = message;
   toast.classList.add("visible");
   toastTimer = window.setTimeout(() => toast.classList.remove("visible"), 3200);
+}
+
+function isStandalone() {
+  return window.matchMedia("(display-mode: standalone)").matches || window.navigator.standalone === true;
+}
+
+function isIOSDevice() {
+  return /iphone|ipad|ipod/i.test(navigator.userAgent)
+    || (navigator.platform === "MacIntel" && navigator.maxTouchPoints > 1);
+}
+
+function openInstallDialog() {
+  const isIOS = isIOSDevice();
+  const isSafari = /safari/i.test(navigator.userAgent) && !/crios|fxios|edgios/i.test(navigator.userAgent);
+
+  if (deferredInstallPrompt) {
+    installDialogTitle.textContent = "Install Kio Radio";
+    installInstructions.innerHTML = "<p>Add Kio Radio to your home screen for a focused, full-screen player.</p>";
+    installConfirmButton.hidden = false;
+  } else if (isIOS) {
+    installDialogTitle.textContent = "Add Kio Radio to iPhone";
+    installInstructions.innerHTML = isSafari
+      ? "<ol><li>Tap Safari's <strong>Share</strong> button.</li><li>Choose <strong>Add to Home Screen</strong>.</li><li>Tap <strong>Add</strong> to install.</li></ol><p>The app shell works offline; live radio still needs an internet connection.</p>"
+      : "<p>Open this page in <strong>Safari</strong>, tap Share, then choose <strong>Add to Home Screen</strong>.</p>";
+    installConfirmButton.hidden = true;
+  } else {
+    installDialogTitle.textContent = "Install Kio Radio";
+    installInstructions.innerHTML = "<p>Use your browser menu and choose <strong>Install app</strong> or <strong>Add to Home Screen</strong>.</p>";
+    installConfirmButton.hidden = true;
+  }
+
+  if (typeof installDialog.showModal === "function") installDialog.showModal();
+  else installDialog.setAttribute("open", "");
+}
+
+function closeInstallDialog() {
+  if (typeof installDialog.close === "function") installDialog.close();
+  else installDialog.removeAttribute("open");
+}
+
+installButton.addEventListener("click", openInstallDialog);
+installCloseButton.addEventListener("click", closeInstallDialog);
+installDialog.addEventListener("click", (event) => {
+  if (event.target === installDialog) closeInstallDialog();
+});
+installConfirmButton.addEventListener("click", async () => {
+  if (!deferredInstallPrompt) return;
+  deferredInstallPrompt.prompt();
+  await deferredInstallPrompt.userChoice;
+  deferredInstallPrompt = undefined;
+  closeInstallDialog();
+  installButton.hidden = true;
+});
+
+window.addEventListener("beforeinstallprompt", (event) => {
+  event.preventDefault();
+  deferredInstallPrompt = event;
+  if (!isStandalone()) installButton.hidden = false;
+});
+
+window.addEventListener("appinstalled", () => {
+  deferredInstallPrompt = undefined;
+  installButton.hidden = true;
+  showToast("Kio Radio is installed.");
+});
+
+if (isIOSDevice() && !isStandalone()) installButton.hidden = false;
+
+if ("mediaSession" in navigator) {
+  [
+    ["play", playStream],
+    ["pause", pauseStream],
+    ["previoustrack", () => selectStation(currentIndex - 1, true)],
+    ["nexttrack", () => selectStation(currentIndex + 1, true)],
+  ].forEach(([action, handler]) => {
+    try {
+      navigator.mediaSession.setActionHandler(action, handler);
+    } catch {
+      // Older iOS versions expose Media Session without every action.
+    }
+  });
+}
+
+window.addEventListener("offline", () => {
+  if (audio.paused) setStatus("Offline — connect to tune in", "error");
+  showToast("You are offline. The saved app stays available, but live radio needs a connection.");
+});
+window.addEventListener("online", () => {
+  if (audio.paused) setStatus("Back online — ready when you are", "idle");
+  showToast("Connection restored.");
+});
+
+if ("serviceWorker" in navigator) {
+  window.addEventListener("load", () => {
+    navigator.serviceWorker.register("./sw.js").catch(() => {
+      showToast("Offline app setup could not finish.");
+    });
+  });
 }
 
 playButton.addEventListener("click", togglePlayback);
@@ -445,4 +620,4 @@ updateVolumeDisplay();
 document.querySelector("#headerStationCount").textContent = `${stations.length} live signals`;
 renderStationList();
 renderStation();
-setStatus("Ready when you are", "idle");
+setStatus(navigator.onLine ? "Ready when you are" : "Offline — connect to tune in", navigator.onLine ? "idle" : "error");

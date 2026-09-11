@@ -26,6 +26,8 @@ body {
   background: var(--bg);
   color: var(--text);
   -webkit-font-smoothing: antialiased;
+  padding-right: env(safe-area-inset-right);
+  padding-left: env(safe-area-inset-left);
 }
 button, input { font: inherit; }
 button, a { -webkit-tap-highlight-color: transparent; }
@@ -36,10 +38,11 @@ button:focus-visible, a:focus-visible, input:focus-visible {
 .shell { width: min(1160px, calc(100% - 48px)); margin: 0 auto; }
 
 .site-header {
-  min-height: 94px;
+  min-height: calc(94px + env(safe-area-inset-top));
   display: flex;
   align-items: center;
   justify-content: space-between;
+  padding-top: env(safe-area-inset-top);
   border-bottom: 1px solid var(--line-soft);
 }
 .brand {
@@ -84,6 +87,33 @@ button:focus-visible, a:focus-visible, input:focus-visible {
   font-size: 0.78rem;
   letter-spacing: 0.05em;
   text-transform: uppercase;
+}
+.install-button {
+  min-height: 34px;
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  padding: 0 12px;
+  border: 1px solid var(--line);
+  border-radius: 999px;
+  background: var(--surface);
+  color: var(--text);
+  cursor: pointer;
+  font-size: 0.68rem;
+  font-weight: 700;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  transition: border-color 160ms ease, background 160ms ease;
+}
+.install-button[hidden] { display: none; }
+.install-button:hover { border-color: #505050; background: var(--surface-raised); }
+.install-button svg {
+  width: 15px;
+  fill: none;
+  stroke: currentColor;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  stroke-width: 1.7;
 }
 .signal-label { display: inline-flex; align-items: center; gap: 8px; }
 .signal-label i {
@@ -501,7 +531,7 @@ input[type="range"]::-moz-range-thumb {
   text-align: center;
 }
 footer {
-  min-height: 100px;
+  min-height: calc(100px + env(safe-area-inset-bottom));
   display: grid;
   grid-template-columns: 1fr auto 1fr;
   align-items: center;
@@ -509,6 +539,7 @@ footer {
   border-top: 1px solid var(--line-soft);
   color: var(--quiet);
   font-size: 0.72rem;
+  padding-bottom: env(safe-area-inset-bottom);
 }
 .footer-title { color: var(--muted); font-weight: 650; letter-spacing: 0.03em; }
 .footer-socials { display: flex; justify-self: end; gap: 8px; }
@@ -528,7 +559,7 @@ footer {
 .toast {
   position: fixed;
   right: 24px;
-  bottom: 24px;
+  bottom: calc(24px + env(safe-area-inset-bottom));
   max-width: min(360px, calc(100% - 48px));
   padding: 13px 16px;
   border: 1px solid var(--line);
@@ -543,6 +574,61 @@ footer {
   transition: opacity 180ms ease, transform 180ms ease;
 }
 .toast.visible { opacity: 1; transform: translateY(0); }
+
+.install-dialog {
+  width: min(440px, calc(100% - 32px));
+  padding: 0;
+  border: 1px solid #333;
+  border-radius: 24px;
+  background: #111;
+  color: var(--text);
+  box-shadow: 0 30px 90px rgba(0, 0, 0, 0.75);
+}
+.install-dialog::backdrop { background: rgba(0, 0, 0, 0.76); backdrop-filter: blur(8px); }
+.install-dialog-inner { position: relative; padding: 34px; }
+.dialog-close {
+  position: absolute;
+  top: 16px;
+  right: 16px;
+  width: 34px;
+  height: 34px;
+  padding: 0;
+  border: 1px solid var(--line);
+  border-radius: 50%;
+  background: transparent;
+  color: var(--muted);
+  cursor: pointer;
+  font-size: 1.25rem;
+}
+.install-app-icon {
+  width: 64px;
+  height: 64px;
+  display: grid;
+  place-items: center;
+  margin-bottom: 26px;
+  border: 1px solid #303030;
+  border-radius: 17px;
+  background: radial-gradient(circle at 50% 52%, #284ee8 0 11%, #111b4c 12% 31%, #090a0e 60%);
+}
+.install-app-icon span { width: 8px; height: 8px; border-radius: 50%; background: white; box-shadow: 0 0 16px #7290ff; }
+.install-dialog h2 { margin: 12px 0 14px; font-size: 1.7rem; font-weight: 540; letter-spacing: -0.04em; }
+.install-instructions { color: var(--muted); font-size: 0.9rem; line-height: 1.6; }
+.install-instructions p { margin: 0; text-wrap: pretty; }
+.install-instructions ol { margin: 0 0 16px; padding-left: 22px; }
+.install-instructions li + li { margin-top: 8px; }
+.install-instructions strong { color: var(--text); font-weight: 650; }
+.install-confirm {
+  width: 100%;
+  min-height: 48px;
+  margin-top: 24px;
+  border: 0;
+  border-radius: 14px;
+  background: var(--text);
+  color: var(--bg);
+  cursor: pointer;
+  font-weight: 750;
+}
+.install-confirm[hidden] { display: none; }
 
 @media (max-width: 820px) {
   .shell { width: calc(100% - 32px); max-width: 620px; }
@@ -560,7 +646,10 @@ footer {
 }
 @media (max-width: 540px) {
   .shell { width: calc(100% - 24px); max-width: 480px; }
-  .site-header { min-height: 78px; }
+  .site-header { min-height: calc(78px + env(safe-area-inset-top)); }
+  .header-meta { gap: 12px; }
+  .install-button { width: 34px; padding: 0; justify-content: center; }
+  .install-button span { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0, 0, 0, 0); }
   .signal-label { display: none; }
   .player { padding-top: 28px; }
   .artwork { border-radius: 22px; }
@@ -579,6 +668,7 @@ footer {
   footer > span:first-child::after { content: "DeepInk Group"; font-size: 0.68rem; }
   .footer-socials { justify-self: end; gap: 5px; }
   .footer-socials a { width: 31px; height: 31px; }
+  .install-dialog-inner { padding: 28px 24px calc(28px + env(safe-area-inset-bottom)); }
 }
 @media (prefers-reduced-motion: reduce) {
   *, *::before, *::after {

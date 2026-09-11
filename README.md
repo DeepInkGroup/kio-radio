@@ -2,13 +2,13 @@
 
 ![Kio Radio signal artwork](assets/kio-signal.png)
 
-A focused, dark internet-radio player for human-curated music and live global news.
+A focused, dark internet-radio player for human-curated music, Persian radio, and live global news. Install it on iPhone or any modern PWA-capable browser.
 
 **[Listen on Kio Radio](https://deepinkgroup.github.io/kio-radio/)**
 
 ## What it does
 
-Kio Radio brings fifteen independent live signals into one lightweight player. Tune into alternative, jazz, and world music; settle into classical, ambient, or lo-fi focus streams; or switch directly to Persian and international news audio.
+Kio Radio brings twenty independent live signals into one lightweight player. Tune into alternative, jazz, Persian, and world music; settle into classical, ambient, or lo-fi focus streams; or switch directly to Persian and international news audio.
 
 - Real HTTPS audio streams—no demo tracks or simulated playback
 - Music, Focus, News, and Favorites filters
@@ -17,6 +17,9 @@ Kio Radio brings fifteen independent live signals into one lightweight player. T
 - Shareable station URLs such as `#bbc-world`
 - One-click random tuning with the `R` keyboard shortcut
 - Favorites, last station, and volume remembered locally
+- Installable PWA with a cached offline app shell
+- iPhone safe-area support and guided Safari installation
+- Lock-screen play, pause, previous, and next controls through the Media Session API
 - Clear connecting, buffering, playing, paused, and unavailable states
 - Responsive layout with keyboard and reduced-motion support
 - No frameworks, analytics, accounts, or runtime dependencies
@@ -27,14 +30,19 @@ Kio Radio brings fifteen independent live signals into one lightweight player. T
 | --- | --- | --- | --- |
 | KEXP 90.3 | Eclectic / alternative | 160k AAC | [KEXP](https://www.kexp.org/streaming-urls/) |
 | NTS 1 | Underground / global | 256k MP3 | [NTS](https://www.nts.live/radio) |
+| NTS 2 | Experimental / global | 256k MP3 | [NTS](https://www.nts.live/schedule/2) |
 | All Classical | Classical | 128k MP3 | [All Classical Radio](https://www.allclassical.org/contact/contact-our-technical-team/) |
 | WRTI Jazz | Jazz | 128k MP3 | [WRTI](https://www.wrti.org/listen-live-to-wrti) |
+| Radio Swiss Jazz | Jazz / soul / blues | 128k MP3 | [Radio Swiss Jazz](https://www.radioswissjazz.ch/en/reception/internet) |
+| KCRW Eclectic24 | Eclectic / discovery | 192k MP3 | [KCRW](https://www.kcrw.com/shows/eclectic24/about) |
 | Atma FM Ambient | Ambient / experimental | 128k MP3 | [Atma FM](https://atma.fm/) |
 | Kalizo Lo-Fi | Lo-fi / chillhop | 192k MP3 | [Kalizo Radio](https://www.kalizoradio.com/radio/lofi/) |
 | YourClassical Relax | Calm classical / focus | 128k MP3 | [YourClassical](https://www.yourclassical.org/playlist/relax-stream) |
 | BBC World Service | Global news | 56k MP3 | [BBC Audio](https://www.bbc.com/audio/stations) |
 | CNN | Live news | 96k MP3 | [CNN Audio](https://www.cnn.com/audio) via TuneIn |
 | Iran International | Persian news | Live MP3 | [Iran International](https://www.iranintl.com/radio) |
+| Radio Shoma 93.4 | Persian pop / culture | Live MP3 | [Radio Shoma](https://www.radioshoma934.ae/en/) |
+| Radio Yar | Persian music / talk | Live MP3 | [Radio Yar](https://radioyar.com/) |
 | WFMU Freeform | Freeform / community | 128k MP3 | [WFMU](https://www.wfmu.org/audiostream.shtml) |
 | Radio Paradise | Eclectic | 192k MP3 | [Radio Paradise](https://radioparadise.com/) |
 | RP Mellow Mix | Mellow / acoustic | 192k MP3 | [Radio Paradise](https://radioparadise.com/) |
@@ -42,6 +50,16 @@ Kio Radio brings fifteen independent live signals into one lightweight player. T
 | RP Global Mix | Global music | 192k MP3 | [Radio Paradise](https://radioparadise.com/) |
 
 Streams remain hosted and operated by their broadcasters. Availability, programming, advertising, and regional access are controlled by each provider. CNN audio is publicly distributed through TuneIn and may contain inserted advertising.
+
+## Install on iPhone
+
+1. Open [Kio Radio](https://deepinkgroup.github.io/kio-radio/) in Safari.
+2. Tap the **Share** button.
+3. Choose **Add to Home Screen**, then tap **Add**.
+
+Kio Radio will open in its own full-screen window and expose playback controls on the iPhone lock screen. The interface is cached so it can still open without a connection; live stations always require internet access.
+
+On supported desktop and Android browsers, use the **Install** button in the header or the browser's install command.
 
 ## Run locally
 
@@ -77,9 +95,12 @@ The project is deliberately small:
 index.html                 semantic player markup
 style.css                  responsive dark interface
 app.js                     station data and playback state
+manifest.webmanifest       PWA identity, icons, and shortcuts
+sw.js                      same-origin offline app-shell cache
 server.js                  dependency-free local server
 test/site.test.js          content and security checks
 assets/kio-signal.png      original Kio artwork
+assets/icon-*.png           iPhone and PWA app icons
 ```
 
 Run the checks with:

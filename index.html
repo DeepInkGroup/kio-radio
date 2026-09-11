@@ -2,15 +2,20 @@
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
     <meta name="theme-color" content="#0a0a0a" />
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+    <meta name="apple-mobile-web-app-title" content="Kio Radio" />
     <meta name="description" content="Kio Radio — independent radio in a minimal dark player." />
     <meta property="og:title" content="Kio Radio" />
-    <meta property="og:description" content="Fifteen independent music, focus, and news signals in one minimal player." />
+    <meta property="og:description" content="Twenty independent music, focus, Persian, and global news signals in one minimal player." />
     <meta property="og:type" content="website" />
     <meta property="og:url" content="https://deepinkgroup.github.io/kio-radio/" />
     <meta property="og:image" content="https://deepinkgroup.github.io/kio-radio/assets/kio-signal.png" />
     <link rel="canonical" href="https://deepinkgroup.github.io/kio-radio/" />
+    <link rel="manifest" href="manifest.webmanifest" />
+    <link rel="apple-touch-icon" sizes="180x180" href="assets/apple-touch-icon.png" />
     <title>Kio Radio — Stay curious</title>
     <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='16' fill='%23101010'/%3E%3Ccircle cx='32' cy='32' r='12' fill='%233c63f3'/%3E%3Ccircle cx='32' cy='32' r='4' fill='white'/%3E%3C/svg%3E" />
     <link rel="stylesheet" href="style.css" />
@@ -24,7 +29,11 @@
           <span>Kio Radio</span>
         </a>
         <div class="header-meta">
-          <span class="signal-label"><i aria-hidden="true"></i> <span id="headerStationCount">15 live signals</span></span>
+          <button class="install-button" id="installButton" type="button" hidden>
+            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3v11m0 0 4-4m-4 4-4-4M5 15v4h14v-4" /></svg>
+            <span>Install</span>
+          </button>
+          <span class="signal-label"><i aria-hidden="true"></i> <span id="headerStationCount">20 live signals</span></span>
           <span id="localTime" aria-label="Local time">--:--</span>
         </div>
       </header>
@@ -140,7 +149,18 @@
       </footer>
     </div>
 
+    <dialog class="install-dialog" id="installDialog" aria-labelledby="installDialogTitle">
+      <div class="install-dialog-inner">
+        <button class="dialog-close" id="installCloseButton" type="button" aria-label="Close install instructions">×</button>
+        <span class="install-app-icon" aria-hidden="true"><span></span></span>
+        <p class="eyebrow">Your radio, one tap away</p>
+        <h2 id="installDialogTitle">Install Kio Radio</h2>
+        <div class="install-instructions" id="installInstructions"></div>
+        <button class="install-confirm" id="installConfirmButton" type="button">Install app</button>
+      </div>
+    </dialog>
+
     <div class="toast" id="toast" role="status" aria-live="polite"></div>
-    <audio id="radio" preload="none"></audio>
+    <audio id="radio" preload="none" playsinline></audio>
   </body>
 </html>
