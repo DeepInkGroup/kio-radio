@@ -9,7 +9,7 @@
     <meta name="apple-mobile-web-app-title" content="Kio Radio" />
     <meta name="description" content="Kio Radio — independent radio in a minimal dark player." />
     <meta property="og:title" content="Kio Radio" />
-    <meta property="og:description" content="Twenty independent music, focus, Persian, and global news signals in one minimal player." />
+    <meta property="og:description" content="Twenty-one independent music, focus, Persian, and global news signals in one minimal player." />
     <meta property="og:type" content="website" />
     <meta property="og:url" content="https://deepinkgroup.github.io/kio-radio/" />
     <meta property="og:image" content="https://deepinkgroup.github.io/kio-radio/assets/kio-signal.png" />
@@ -33,7 +33,7 @@
             <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3v11m0 0 4-4m-4 4-4-4M5 15v4h14v-4" /></svg>
             <span>Install</span>
           </button>
-          <span class="signal-label"><i aria-hidden="true"></i> <span id="headerStationCount">20 live signals</span></span>
+          <span class="signal-label"><i aria-hidden="true"></i> <span id="headerStationCount">21 live signals</span></span>
           <span id="localTime" aria-label="Local time">--:--</span>
         </div>
       </header>
@@ -105,6 +105,13 @@
               <input id="volumeSlider" type="range" min="0" max="1" step="0.01" value="0.72" aria-label="Volume" />
               <span id="volumeValue">72</span>
             </div>
+
+            <button class="sleep-timer-button" id="sleepTimerButton" type="button" aria-haspopup="dialog" aria-controls="sleepTimerDialog">
+              <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="8" /><path d="M12 7v5l3 2" /></svg>
+              <span>Sleep timer</span>
+              <strong id="sleepTimerStatus" aria-live="polite">Off</strong>
+              <svg class="sleep-chevron" viewBox="0 0 24 24" aria-hidden="true"><path d="m9 7 5 5-5 5" /></svg>
+            </button>
           </div>
         </section>
 
@@ -157,6 +164,31 @@
         <h2 id="installDialogTitle">Install Kio Radio</h2>
         <div class="install-instructions" id="installInstructions"></div>
         <button class="install-confirm" id="installConfirmButton" type="button">Install app</button>
+      </div>
+    </dialog>
+
+    <dialog class="install-dialog sleep-dialog" id="sleepTimerDialog" aria-labelledby="sleepTimerDialogTitle">
+      <div class="install-dialog-inner">
+        <button class="dialog-close" id="sleepTimerCloseButton" type="button" aria-label="Close sleep timer">×</button>
+        <p class="eyebrow">Automatic shutoff</p>
+        <h2 id="sleepTimerDialogTitle">Sleep timer</h2>
+        <p class="sleep-dialog-copy">Choose when Kio Radio should stop playing.</p>
+        <div class="timer-presets" aria-label="Sleep timer presets">
+          <button type="button" data-minutes="15">15 min</button>
+          <button type="button" data-minutes="30">30 min</button>
+          <button type="button" data-minutes="45">45 min</button>
+          <button type="button" data-minutes="60">1 hour</button>
+          <button type="button" data-minutes="90">90 min</button>
+          <button type="button" data-minutes="120">2 hours</button>
+        </div>
+        <form class="timer-custom" id="sleepTimerForm">
+          <label for="sleepTimerMinutes">Custom minutes</label>
+          <div>
+            <input id="sleepTimerMinutes" type="number" min="1" max="480" step="1" inputmode="numeric" placeholder="e.g. 25" required />
+            <button type="submit">Set timer</button>
+          </div>
+        </form>
+        <button class="timer-cancel" id="sleepTimerCancelButton" type="button" hidden>Cancel active timer</button>
       </div>
     </dialog>
 

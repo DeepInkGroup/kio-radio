@@ -1,4 +1,4 @@
-const CACHE_NAME = "kio-radio-v1";
+const CACHE_NAME = "kio-radio-v2";
 const APP_SHELL = [
   "./",
   "./index.html",

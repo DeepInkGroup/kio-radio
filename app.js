@@ -6,6 +6,7 @@ const stations = [
     genre: "Eclectic / Alternative",
     category: "music",
     quality: "160k AAC",
+    frequency: "90.3 FM",
     url: "https://kexp.streamguys1.com/kexp160.aac",
     homepage: "https://www.kexp.org/",
     description: "Human-curated music from Seattle. Independent, adventurous, and always live.",
@@ -17,6 +18,7 @@ const stations = [
     genre: "Underground / Global",
     category: "music",
     quality: "256k MP3",
+    frequency: "Channel 1",
     url: "https://stream-relay-geo.ntslive.net/stream?client=direct",
     homepage: "https://www.nts.live/radio",
     description: "Boundary-free live radio from an international community of artists, selectors, and music lovers.",
@@ -28,6 +30,7 @@ const stations = [
     genre: "Experimental / Global",
     category: "music",
     quality: "256k MP3",
+    frequency: "Channel 2",
     url: "https://stream-relay-geo.ntslive.net/stream2?client=direct",
     homepage: "https://www.nts.live/schedule/2",
     description: "NTS's second live channel: adventurous selectors, experimental sounds, and scenes from around the world.",
@@ -39,6 +42,7 @@ const stations = [
     genre: "Classical / Public radio",
     category: "music",
     quality: "128k MP3",
+    frequency: "89.9 FM",
     url: "https://allclassical.streamguys1.com/ac128kmp3",
     homepage: "https://www.allclassical.org/",
     description: "Orchestral works, chamber music, and contemporary composers from a listener-supported station.",
@@ -50,6 +54,7 @@ const stations = [
     genre: "Jazz / Public radio",
     category: "music",
     quality: "128k MP3",
+    frequency: "90.1 FM",
     url: "https://wrti-live.streamguys1.com/jazz-mp3",
     homepage: "https://www.wrti.org/listen-live-to-wrti",
     description: "A round-the-clock public-radio jazz stream spanning the tradition, new voices, and deep cuts.",
@@ -61,6 +66,7 @@ const stations = [
     genre: "Jazz / Soul / Blues",
     category: "music",
     quality: "128k MP3",
+    frequency: "DAB+",
     url: "https://stream.srg-ssr.ch/srgssr/rsj/mp3/128",
     homepage: "https://www.radioswissjazz.ch/en/",
     description: "An ad-free blend of jazz, swing, soul, blues, Latin, and world music from Switzerland.",
@@ -72,9 +78,22 @@ const stations = [
     genre: "Eclectic / Music discovery",
     category: "music",
     quality: "192k MP3",
+    frequency: "89.9 HD2",
     url: "https://streams.kcrw.com/e24_mp3",
     homepage: "https://www.kcrw.com/shows/eclectic24/about",
     description: "KCRW's always-on music channel, handpicked across new releases, deep cuts, eras, and scenes.",
+  },
+  {
+    id: "fip",
+    name: "FIP",
+    location: "Paris, France",
+    genre: "Eclectic / French radio",
+    category: "music",
+    quality: "128k MP3",
+    frequency: "105.1 FM",
+    url: "https://icecast.radiofrance.fr/fip-midfi.mp3",
+    homepage: "https://www.radiofrance.fr/fip",
+    description: "A seamless, human-curated journey through jazz, soul, world music, chanson, electronic, and beyond.",
   },
   {
     id: "atma-ambient",
@@ -83,6 +102,7 @@ const stations = [
     genre: "Ambient / Experimental",
     category: "focus",
     quality: "128k MP3",
+    frequency: "Channel 1",
     url: "https://atma.fm/channel1",
     homepage: "https://atma.fm/",
     description: "Handpicked atmospheric, droning, and electroacoustic music from an independent Prague signal.",
@@ -94,6 +114,7 @@ const stations = [
     genre: "Lo-fi / Chillhop",
     category: "focus",
     quality: "192k MP3",
+    frequency: "Online",
     url: "https://streams.dez.ovh/listen/chillofi/radio.mp3",
     homepage: "https://www.kalizoradio.com/radio/lofi/",
     description: "Dusty beats, soft jazz samples, and an uninterrupted backdrop for work, reading, or rest.",
@@ -105,6 +126,7 @@ const stations = [
     genre: "Calm classical / Focus",
     category: "focus",
     quality: "128k MP3",
+    frequency: "Online",
     url: "https://relax.stream.publicradio.org/relax.mp3",
     homepage: "https://www.yourclassical.org/playlist/relax-stream",
     description: "Quiet classical selections chosen for concentration, decompression, and slower moments.",
@@ -116,6 +138,7 @@ const stations = [
     genre: "Global news / Analysis",
     category: "news",
     quality: "56k MP3",
+    frequency: "Digital",
     url: "https://stream.live.vc.bbcmedia.co.uk/bbc_world_service",
     homepage: "https://www.bbc.com/audio/stations",
     description: "Live international reporting, interviews, and analysis from BBC News around the clock.",
@@ -127,6 +150,7 @@ const stations = [
     genre: "Live news / Current affairs",
     category: "news",
     quality: "96k MP3",
+    frequency: "Digital",
     url: "https://tunein.cdnstream1.com/2868_96.mp3",
     homepage: "https://www.cnn.com/audio",
     description: "The live audio simulcast of CNN's rolling news coverage, distributed by TuneIn.",
@@ -138,6 +162,7 @@ const stations = [
     genre: "Persian news / Analysis",
     category: "news",
     quality: "Live MP3",
+    frequency: "Digital",
     url: "https://n02.radiojar.com/dfnrphnr5f0uv",
     homepage: "https://www.iranintl.com/radio",
     description: "Live Persian-language reporting, interviews, and analysis covering Iran and the wider world.",
@@ -149,6 +174,7 @@ const stations = [
     genre: "Persian pop / Culture",
     category: "music",
     quality: "Live MP3",
+    frequency: "93.4 FM",
     url: "https://stream.radiojar.com/rzcfw4cbsxquv",
     homepage: "https://www.radioshoma934.ae/en/",
     description: "Persian hits, conversation, and culture from the UAE's first Farsi music station.",
@@ -160,6 +186,7 @@ const stations = [
     genre: "Persian music / Talk",
     category: "music",
     quality: "Live MP3",
+    frequency: "Online",
     url: "https://stream.zeno.fm/oyb5oh6ne3tuv",
     homepage: "https://radioyar.com/",
     description: "Independent Persian radio pairing timeless music with live talk, culture, and community voices.",
@@ -171,6 +198,7 @@ const stations = [
     genre: "Freeform / Community",
     category: "music",
     quality: "128k MP3",
+    frequency: "91.1 FM",
     url: "https://stream0.wfmu.org/freeform-128k.mp3",
     homepage: "https://www.wfmu.org/",
     description: "Independent freeform radio where curious DJs follow ideas instead of algorithms.",
@@ -182,6 +210,7 @@ const stations = [
     genre: "Eclectic / Curated",
     category: "music",
     quality: "192k MP3",
+    frequency: "Main Mix",
     url: "https://stream.radioparadise.com/mp3-192",
     homepage: "https://radioparadise.com/",
     description: "A listener-supported blend of modern and classic rock, world music, and electronic sound.",
@@ -193,6 +222,7 @@ const stations = [
     genre: "Mellow / Acoustic",
     category: "focus",
     quality: "192k MP3",
+    frequency: "Mellow Mix",
     url: "https://stream.radioparadise.com/mellow-192",
     homepage: "https://radioparadise.com/",
     description: "A softer handpicked mix for late nights, slow mornings, and everything in between.",
@@ -204,6 +234,7 @@ const stations = [
     genre: "Rock / Alternative",
     category: "music",
     quality: "192k MP3",
+    frequency: "Rock Mix",
     url: "https://stream.radioparadise.com/rock-192",
     homepage: "https://radioparadise.com/",
     description: "Deep album cuts, enduring classics, and modern rock selected by people who listen closely.",
@@ -215,6 +246,7 @@ const stations = [
     genre: "Global / World",
     category: "music",
     quality: "192k MP3",
+    frequency: "Global Mix",
     url: "https://stream.radioparadise.com/global-192",
     homepage: "https://radioparadise.com/",
     description: "A borderless selection of voices, rhythms, and traditions from around the world.",
@@ -250,6 +282,14 @@ const installDialogTitle = document.querySelector("#installDialogTitle");
 const installInstructions = document.querySelector("#installInstructions");
 const installConfirmButton = document.querySelector("#installConfirmButton");
 const installCloseButton = document.querySelector("#installCloseButton");
+const sleepTimerButton = document.querySelector("#sleepTimerButton");
+const sleepTimerStatus = document.querySelector("#sleepTimerStatus");
+const sleepTimerDialog = document.querySelector("#sleepTimerDialog");
+const sleepTimerCloseButton = document.querySelector("#sleepTimerCloseButton");
+const sleepTimerCancelButton = document.querySelector("#sleepTimerCancelButton");
+const sleepTimerForm = document.querySelector("#sleepTimerForm");
+const sleepTimerMinutes = document.querySelector("#sleepTimerMinutes");
+const timerPresetButtons = [...document.querySelectorAll("[data-minutes]")];
 
 const rememberedStation = localStorage.getItem("kio-station");
 const linkedStation = decodeURIComponent(window.location.hash.slice(1));
@@ -260,6 +300,9 @@ let toastTimer;
 let activeFilter = "all";
 let searchTerm = "";
 let deferredInstallPrompt;
+let sleepDeadline = 0;
+let sleepTimerTimeout;
+let sleepTimerTicker;
 const favorites = new Set(JSON.parse(localStorage.getItem("kio-favorites") || "[]"));
 const rememberedVolume = localStorage.getItem("kio-volume");
 const savedVolume = rememberedVolume === null ? Number.NaN : Number(rememberedVolume);
@@ -277,11 +320,12 @@ function stationRow(station, index) {
     <span class="station-number">${String(index + 1).padStart(2, "0")}</span>
     <span class="station-title"><strong>${station.name}</strong><span>${station.location}</span></span>
     <span class="station-genre">${station.genre}</span>
+    <span class="frequency-badge">${station.frequency}</span>
     <span class="quality-badge">${station.quality}</span>
     <span class="row-action" aria-hidden="true">
       <svg viewBox="0 0 24 24"><path d="m9 7 8 5-8 5V7Z" /></svg>
     </span>`;
-  row.setAttribute("aria-label", `Tune to ${station.name}`);
+  row.setAttribute("aria-label", `Tune to ${station.name}, ${station.frequency}`);
   row.addEventListener("click", () => selectStation(index, true));
   return row;
 }
@@ -291,7 +335,7 @@ function renderStationList() {
     const matchesFilter = activeFilter === "all"
       || station.category === activeFilter
       || (activeFilter === "favorites" && favorites.has(station.id));
-    const searchableText = `${station.name} ${station.location} ${station.genre}`.toLowerCase();
+    const searchableText = `${station.name} ${station.location} ${station.genre} ${station.frequency}`.toLowerCase();
     return matchesFilter && searchableText.includes(searchTerm);
   });
 
@@ -319,8 +363,8 @@ function renderStation() {
   const station = stations[currentIndex];
   stationName.textContent = station.name;
   stationDescription.textContent = station.description;
-  artworkTag.textContent = station.location;
-  broadcastLabel.textContent = `${station.genre} / ${station.quality}`;
+  artworkTag.textContent = `${station.location} · ${station.frequency}`;
+  broadcastLabel.textContent = `${station.genre} / ${station.frequency} / ${station.quality}`;
   stationSource.href = station.homepage;
   stationSource.setAttribute("aria-label", `Visit ${station.name} broadcaster website`);
   playButton.setAttribute("aria-label", `${audio.paused ? "Play" : "Pause"} ${station.name}`);
@@ -410,6 +454,111 @@ function showToast(message) {
   toast.classList.add("visible");
   toastTimer = window.setTimeout(() => toast.classList.remove("visible"), 3200);
 }
+
+function formatTimerRemaining(milliseconds) {
+  const totalSeconds = Math.max(0, Math.ceil(milliseconds / 1000));
+  const hours = Math.floor(totalSeconds / 3600);
+  const minutes = Math.floor((totalSeconds % 3600) / 60);
+  const seconds = totalSeconds % 60;
+  return hours > 0
+    ? `${hours}:${String(minutes).padStart(2, "0")}:${String(seconds).padStart(2, "0")}`
+    : `${minutes}:${String(seconds).padStart(2, "0")}`;
+}
+
+function clearSleepTimer(showConfirmation = false) {
+  window.clearTimeout(sleepTimerTimeout);
+  window.clearInterval(sleepTimerTicker);
+  sleepDeadline = 0;
+  localStorage.removeItem("kio-sleep-deadline");
+  sleepTimerStatus.textContent = "Off";
+  sleepTimerButton.setAttribute("aria-label", "Set sleep timer");
+  sleepTimerButton.classList.remove("active");
+  sleepTimerCancelButton.hidden = true;
+  if (showConfirmation) showToast("Sleep timer cancelled.");
+}
+
+function finishSleepTimer() {
+  clearSleepTimer();
+  pauseStream();
+  setStatus("Sleep timer ended", "idle");
+  showToast("Sleep timer ended. The radio is off.");
+}
+
+function updateSleepTimerDisplay() {
+  if (!sleepDeadline) return;
+  const remaining = sleepDeadline - Date.now();
+  if (remaining <= 0) {
+    finishSleepTimer();
+    return;
+  }
+  const formatted = formatTimerRemaining(remaining);
+  sleepTimerStatus.textContent = formatted;
+  sleepTimerButton.setAttribute("aria-label", `Sleep timer, ${formatted} remaining`);
+}
+
+function armSleepTimer(deadline, announce = true) {
+  window.clearTimeout(sleepTimerTimeout);
+  window.clearInterval(sleepTimerTicker);
+  sleepDeadline = deadline;
+  const remaining = sleepDeadline - Date.now();
+  if (remaining <= 0) {
+    clearSleepTimer();
+    return;
+  }
+  localStorage.setItem("kio-sleep-deadline", String(sleepDeadline));
+  sleepTimerButton.classList.add("active");
+  sleepTimerCancelButton.hidden = false;
+  sleepTimerTimeout = window.setTimeout(finishSleepTimer, remaining);
+  sleepTimerTicker = window.setInterval(updateSleepTimerDisplay, 1000);
+  updateSleepTimerDisplay();
+  if (announce) showToast(`Sleep timer set for ${Math.ceil(remaining / 60000)} minutes.`);
+}
+
+function closeSleepTimerDialog() {
+  if (typeof sleepTimerDialog.close === "function") sleepTimerDialog.close();
+  else sleepTimerDialog.removeAttribute("open");
+}
+
+function setSleepTimer(minutes) {
+  armSleepTimer(Date.now() + minutes * 60 * 1000);
+  closeSleepTimerDialog();
+}
+
+function restoreSleepTimer() {
+  const savedDeadline = Number(localStorage.getItem("kio-sleep-deadline"));
+  if (Number.isFinite(savedDeadline) && savedDeadline > Date.now()) armSleepTimer(savedDeadline, false);
+  else clearSleepTimer();
+}
+
+sleepTimerButton.addEventListener("click", () => {
+  sleepTimerCancelButton.hidden = !sleepDeadline;
+  if (typeof sleepTimerDialog.showModal === "function") sleepTimerDialog.showModal();
+  else sleepTimerDialog.setAttribute("open", "");
+});
+sleepTimerCloseButton.addEventListener("click", closeSleepTimerDialog);
+sleepTimerDialog.addEventListener("click", (event) => {
+  if (event.target === sleepTimerDialog) closeSleepTimerDialog();
+});
+timerPresetButtons.forEach((button) => {
+  button.addEventListener("click", () => setSleepTimer(Number(button.dataset.minutes)));
+});
+sleepTimerForm.addEventListener("submit", (event) => {
+  event.preventDefault();
+  const minutes = Number(sleepTimerMinutes.value);
+  if (!Number.isInteger(minutes) || minutes < 1 || minutes > 480) {
+    sleepTimerMinutes.reportValidity();
+    return;
+  }
+  setSleepTimer(minutes);
+  sleepTimerForm.reset();
+});
+sleepTimerCancelButton.addEventListener("click", () => {
+  clearSleepTimer(true);
+  closeSleepTimerDialog();
+});
+document.addEventListener("visibilitychange", () => {
+  if (!document.hidden) updateSleepTimerDisplay();
+});
 
 function isStandalone() {
   return window.matchMedia("(display-mode: standalone)").matches || window.navigator.standalone === true;
@@ -621,3 +770,4 @@ document.querySelector("#headerStationCount").textContent = `${stations.length} 
 renderStationList();
 renderStation();
 setStatus(navigator.onLine ? "Ready when you are" : "Offline — connect to tune in", navigator.onLine ? "idle" : "error");
+restoreSleepTimer();

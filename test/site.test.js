@@ -9,14 +9,15 @@ const html = fs.readFileSync(path.join(root, "index.html"), "utf8");
 const manifest = JSON.parse(fs.readFileSync(path.join(root, "manifest.webmanifest"), "utf8"));
 const serviceWorker = fs.readFileSync(path.join(root, "sw.js"), "utf8");
 
-test("ships twenty secure radio signals", () => {
-  assert.equal((app.match(/^    id: "/gm) || []).length, 20);
-  assert.equal((app.match(/^    url: "https:\/\//gm) || []).length, 20);
+test("ships twenty-one secure radio signals with dial labels", () => {
+  assert.equal((app.match(/^    id: "/gm) || []).length, 21);
+  assert.equal((app.match(/^    url: "https:\/\//gm) || []).length, 21);
+  assert.equal((app.match(/^    frequency: "/gm) || []).length, 21);
   assert.doesNotMatch(app, /^    url: "http:\/\//m);
 });
 
 test("includes every requested listening category", () => {
-  ["All Classical", "Atma FM Ambient", "Kalizo Lo-Fi", "BBC World Service", "CNN", "Iran International", "NTS 1", "NTS 2", "WRTI Jazz", "Radio Swiss Jazz", "KCRW Eclectic24", "Radio Shoma 93.4", "Radio Yar", "YourClassical Relax"].forEach((name) => {
+  ["All Classical", "Atma FM Ambient", "Kalizo Lo-Fi", "BBC World Service", "CNN", "FIP", "Iran International", "NTS 1", "NTS 2", "WRTI Jazz", "Radio Swiss Jazz", "KCRW Eclectic24", "Radio Shoma 93.4", "Radio Yar", "YourClassical Relax"].forEach((name) => {
     assert.match(app, new RegExp(name));
   });
 });
@@ -44,4 +45,13 @@ test("provides an installable iPhone-friendly PWA shell", () => {
   assert.match(serviceWorker, /url\.origin !== self\.location\.origin/);
   assert.match(serviceWorker, /caches\.open/);
   assert.match(app, /navigator\.mediaSession/);
+});
+
+test("includes a persistent and customizable sleep timer", () => {
+  ["sleepTimerButton", "sleepTimerDialog", "sleepTimerMinutes", "sleepTimerCancelButton"].forEach((id) => {
+    assert.match(html, new RegExp(`id="${id}"`));
+  });
+  assert.match(app, /kio-sleep-deadline/);
+  assert.match(app, /finishSleepTimer/);
+  assert.match(app, /pauseStream\(\)/);
 });
