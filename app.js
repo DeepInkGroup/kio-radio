@@ -108,6 +108,18 @@ const stations = [
     description: "Handpicked atmospheric, droning, and electroacoustic music from an independent Prague signal.",
   },
   {
+    id: "groove-salad",
+    name: "SomaFM Groove Salad",
+    location: "San Francisco, US",
+    genre: "Ambient / Downtempo",
+    category: "focus",
+    quality: "128k MP3",
+    frequency: "Online",
+    url: "https://ice5.somafm.com/groovesalad-128-mp3",
+    homepage: "https://somafm.com/groovesalad/",
+    description: "Commercial-free ambient, downtempo, and chillout electronica for a softer corner of the dial.",
+  },
+  {
     id: "kalizo-lofi",
     name: "Kalizo Lo-Fi",
     location: "France",
@@ -303,7 +315,9 @@ let deferredInstallPrompt;
 let sleepDeadline = 0;
 let sleepTimerTimeout;
 let sleepTimerTicker;
+let activeStreamId = null;
 const favorites = new Set(JSON.parse(localStorage.getItem("kio-favorites") || "[]"));
+const unavailableStationIds = new Set();
 const rememberedVolume = localStorage.getItem("kio-volume");
 const savedVolume = rememberedVolume === null ? Number.NaN : Number(rememberedVolume);
 
@@ -311,21 +325,23 @@ audio.volume = Number.isFinite(savedVolume) && savedVolume >= 0 && savedVolume <
 volumeSlider.value = audio.volume;
 
 function stationRow(station, index) {
+  const unavailable = unavailableStationIds.has(station.id);
   const row = document.createElement("button");
   row.className = "station-row";
+  row.classList.toggle("is-unavailable", unavailable);
   row.type = "button";
   row.dataset.index = index;
   row.dataset.category = station.category;
   row.innerHTML = `
     <span class="station-number">${String(index + 1).padStart(2, "0")}</span>
-    <span class="station-title"><strong>${station.name}</strong><span>${station.location}</span></span>
+    <span class="station-title"><strong>${station.name}</strong><span class="station-location">${station.location}${unavailable ? '<span class="unavailable-badge">Unavailable</span>' : ""}</span></span>
     <span class="station-genre">${station.genre}</span>
     <span class="frequency-badge">${station.frequency}</span>
     <span class="quality-badge">${station.quality}</span>
     <span class="row-action" aria-hidden="true">
       <svg viewBox="0 0 24 24"><path d="m9 7 8 5-8 5V7Z" /></svg>
     </span>`;
-  row.setAttribute("aria-label", `Tune to ${station.name}, ${station.frequency}`);
+  row.setAttribute("aria-label", `Tune to ${station.name}, ${station.frequency}${unavailable ? ", currently unavailable" : ""}`);
   row.addEventListener("click", () => selectStation(index, true));
   return row;
 }
@@ -361,6 +377,7 @@ function updateActiveRow() {
 
 function renderStation() {
   const station = stations[currentIndex];
+  page.classList.toggle("station-unavailable", unavailableStationIds.has(station.id));
   stationName.textContent = station.name;
   stationDescription.textContent = station.description;
   artworkTag.textContent = `${station.location} · ${station.frequency}`;
@@ -393,6 +410,7 @@ function renderStation() {
 async function selectStation(index, autoPlay = false) {
   const wasPlaying = !audio.paused || shouldResume;
   currentIndex = (index + stations.length) % stations.length;
+  activeStreamId = null;
   audio.pause();
   audio.removeAttribute("src");
   audio.load();
@@ -405,6 +423,7 @@ async function selectStation(index, autoPlay = false) {
 
 async function playStream() {
   const station = stations[currentIndex];
+  activeStreamId = station.id;
   shouldResume = true;
   setStatus("Connecting to live signal", "loading");
 
@@ -413,7 +432,13 @@ async function playStream() {
   try {
     await audio.play();
   } catch (error) {
-    if (error.name !== "AbortError") {
+    if (error.name === "NotAllowedError") {
+      activeStreamId = null;
+      shouldResume = false;
+      setStatus("Tap play to begin", "idle");
+    } else if (error.name !== "AbortError") {
+      markStationUnavailable(station.id);
+      activeStreamId = null;
       shouldResume = false;
       setStatus("Signal unavailable", "error");
       showToast("This signal is unavailable right now. Try another station.");
@@ -423,6 +448,7 @@ async function playStream() {
 
 function pauseStream() {
   shouldResume = false;
+  activeStreamId = null;
   audio.pause();
   setStatus("Broadcast paused", "idle");
 }
@@ -453,6 +479,19 @@ function showToast(message) {
   toast.textContent = message;
   toast.classList.add("visible");
   toastTimer = window.setTimeout(() => toast.classList.remove("visible"), 3200);
+}
+
+function markStationUnavailable(stationId) {
+  if (!stationId || unavailableStationIds.has(stationId)) return;
+  unavailableStationIds.add(stationId);
+  renderStationList();
+  if (stations[currentIndex].id === stationId) renderStation();
+}
+
+function markStationAvailable(stationId) {
+  if (!stationId || !unavailableStationIds.delete(stationId)) return;
+  renderStationList();
+  if (stations[currentIndex].id === stationId) renderStation();
 }
 
 function formatTimerRemaining(milliseconds) {
@@ -726,6 +765,8 @@ volumeSlider.addEventListener("input", (event) => {
 });
 
 audio.addEventListener("playing", () => {
+  const stationId = activeStreamId || stations[currentIndex].id;
+  markStationAvailable(stationId);
   shouldResume = true;
   setStatus("On air now", "playing");
   renderStation();
@@ -737,7 +778,11 @@ audio.addEventListener("pause", () => {
   renderStation();
 });
 audio.addEventListener("error", () => {
+  const failedStationId = activeStreamId;
+  if (!failedStationId) return;
   shouldResume = false;
+  activeStreamId = null;
+  markStationUnavailable(failedStationId);
   setStatus("Signal unavailable", "error");
   showToast("The station stopped responding. Choose another signal to continue.");
 });

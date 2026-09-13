@@ -9,15 +9,15 @@ const html = fs.readFileSync(path.join(root, "index.html"), "utf8");
 const manifest = JSON.parse(fs.readFileSync(path.join(root, "manifest.webmanifest"), "utf8"));
 const serviceWorker = fs.readFileSync(path.join(root, "sw.js"), "utf8");
 
-test("ships twenty-one secure radio signals with dial labels", () => {
-  assert.equal((app.match(/^    id: "/gm) || []).length, 21);
-  assert.equal((app.match(/^    url: "https:\/\//gm) || []).length, 21);
-  assert.equal((app.match(/^    frequency: "/gm) || []).length, 21);
+test("ships twenty-two secure radio signals with dial labels", () => {
+  assert.equal((app.match(/^    id: "/gm) || []).length, 22);
+  assert.equal((app.match(/^    url: "https:\/\//gm) || []).length, 22);
+  assert.equal((app.match(/^    frequency: "/gm) || []).length, 22);
   assert.doesNotMatch(app, /^    url: "http:\/\//m);
 });
 
 test("includes every requested listening category", () => {
-  ["All Classical", "Atma FM Ambient", "Kalizo Lo-Fi", "BBC World Service", "CNN", "FIP", "Iran International", "NTS 1", "NTS 2", "WRTI Jazz", "Radio Swiss Jazz", "KCRW Eclectic24", "Radio Shoma 93.4", "Radio Yar", "YourClassical Relax"].forEach((name) => {
+  ["All Classical", "Atma FM Ambient", "SomaFM Groove Salad", "Kalizo Lo-Fi", "BBC World Service", "CNN", "FIP", "Iran International", "NTS 1", "NTS 2", "WRTI Jazz", "Radio Swiss Jazz", "KCRW Eclectic24", "Radio Shoma 93.4", "Radio Yar", "YourClassical Relax"].forEach((name) => {
     assert.match(app, new RegExp(name));
   });
 });
@@ -54,4 +54,11 @@ test("includes a persistent and customizable sleep timer", () => {
   assert.match(app, /kio-sleep-deadline/);
   assert.match(app, /finishSleepTimer/);
   assert.match(app, /pauseStream\(\)/);
+});
+
+test("marks a failed station red until playback recovers", () => {
+  assert.match(app, /unavailableStationIds/);
+  assert.match(app, /markStationUnavailable/);
+  assert.match(app, /markStationAvailable/);
+  assert.match(html, /stationList/);
 });

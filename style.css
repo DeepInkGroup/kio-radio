@@ -529,6 +529,20 @@ input[type="range"]::-moz-range-thumb {
 .station-title { display: grid; gap: 5px; }
 .station-title strong { font-size: 1rem; font-weight: 560; letter-spacing: -0.02em; }
 .station-title span, .station-genre { color: var(--quiet); font-size: 0.75rem; }
+.station-location { display: flex; align-items: center; gap: 8px; }
+.unavailable-badge {
+  display: inline-flex;
+  align-items: center;
+  padding: 3px 6px;
+  border: 1px solid rgba(255, 113, 107, 0.5);
+  border-radius: 999px;
+  color: #ff918d !important;
+  font-size: 0.57rem !important;
+  font-weight: 750;
+  letter-spacing: 0.06em;
+  line-height: 1;
+  text-transform: uppercase;
+}
 .station-genre { color: var(--muted); }
 .frequency-badge, .quality-badge {
   padding: 6px 9px;
@@ -541,6 +555,11 @@ input[type="range"]::-moz-range-thumb {
   text-transform: uppercase;
 }
 .frequency-badge { border-color: #343b59; color: var(--accent-soft); }
+.station-row.is-unavailable { background: rgba(160, 45, 42, 0.08); }
+.station-row.is-unavailable .station-number::before { background: #ff716b; box-shadow: 0 0 10px rgba(255, 113, 107, 0.75); }
+.station-row.is-unavailable .station-title strong { color: #ffb0ac; }
+.station-row.is-unavailable .frequency-badge { border-color: rgba(255, 113, 107, 0.42); color: #ff918d; }
+.station-unavailable .on-air-card { border-color: rgba(255, 113, 107, 0.5); }
 .row-action {
   width: 34px;
   height: 34px;

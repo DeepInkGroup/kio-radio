@@ -8,7 +8,7 @@ A focused, dark internet-radio player for human-curated music, Persian radio, an
 
 ## What it does
 
-Kio Radio brings twenty-one independent live signals into one lightweight player. Tune into alternative, jazz, Persian, French, and world music; settle into classical, ambient, or lo-fi focus streams; or switch directly to Persian and international news audio.
+Kio Radio brings twenty-two independent live signals into one lightweight player. Tune into alternative, jazz, Persian, French, and world music; settle into classical, ambient, or lo-fi focus streams; or switch directly to Persian and international news audio.
 
 - Real HTTPS audio streams—no demo tracks or simulated playback
 - Music, Focus, News, and Favorites filters
@@ -23,6 +23,7 @@ Kio Radio brings twenty-one independent live signals into one lightweight player
 - iPhone safe-area support and guided Safari installation
 - Lock-screen play, pause, previous, and next controls through the Media Session API
 - Clear connecting, buffering, playing, paused, and unavailable states
+- Failed playback is marked directly on the dial in red until a later retry succeeds
 - Responsive layout with keyboard and reduced-motion support
 - No frameworks, analytics, accounts, or runtime dependencies
 
@@ -39,6 +40,7 @@ Kio Radio brings twenty-one independent live signals into one lightweight player
 | KCRW Eclectic24 | Eclectic / discovery | 89.9 HD2 | 192k MP3 | [KCRW](https://www.kcrw.com/shows/eclectic24/about) |
 | FIP | Eclectic / French radio | 105.1 FM | 128k MP3 | [Radio France](https://www.radiofrance.fr/fip) |
 | Atma FM Ambient | Ambient / experimental | Channel 1 | 128k MP3 | [Atma FM](https://atma.fm/) |
+| SomaFM Groove Salad | Ambient / downtempo | Online | 128k MP3 | [SomaFM](https://somafm.com/groovesalad/) |
 | Kalizo Lo-Fi | Lo-fi / chillhop | Online | 192k MP3 | [Kalizo Radio](https://www.kalizoradio.com/radio/lofi/) |
 | YourClassical Relax | Calm classical / focus | Online | 128k MP3 | [YourClassical](https://www.yourclassical.org/playlist/relax-stream) |
 | BBC World Service | Global news | Digital | 56k MP3 | [BBC Audio](https://www.bbc.com/audio/stations) |
